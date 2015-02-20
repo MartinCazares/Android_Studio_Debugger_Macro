@@ -1,9 +1,10 @@
 package doepiccoding.com.macrodebug;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -14,31 +15,45 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        //<#DEBUG>
-        
-        //</#DEBUG>
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    private List<String> getNamesOfUsersNearMe(String zipCode){
+        List<User> users = mBusinessLogic.getUsersByZipcode(zipCode);
+        if(users == null || users.size() < 1){
+            return null;
         }
 
-        return super.onOptionsItemSelected(item);
+        List<String> names = new ArrayList<String>();
+        int totalUsers = users.size();
+        for(int i = 0; i < totalUsers; i++){
+            User user = users.get(i);
+            String name = user.getName();
+            names.add(name);
+            /*<#DEBUG_OFF>
+                Log.e("LogginUserInfo", "Name: " + name);
+            </#DEBUG_OFF>*/
+                Log.e("LogginUserInfo", "Id: " + user.getId());
+                Log.e("LogginUserInfo", "Id: " + user.getDistance());
+
+        }
+
+        return names;
+    }
+
+    //MOCK Objects just to simulate a debug scenario...
+    private A mBusinessLogic;
+    private class A{
+        public List<User> getUsersByZipcode(String zipcode){
+            return null;
+        }
+    }
+    private class User{
+        public String getName(){
+            return "";
+        }
+        public String getId(){
+            return "";
+        }
+        public String getDistance(){
+            return null;
+        }
     }
 }
