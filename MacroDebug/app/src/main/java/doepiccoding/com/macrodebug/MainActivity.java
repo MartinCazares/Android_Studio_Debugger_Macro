@@ -70,11 +70,11 @@ public class MainActivity extends ActionBarActivity {
             User user = users.get(i);
             String name = user.getName();
             names.add(name);
-            //=========This piece of code is only for logging purposes...=========
-            Log.e("LogginUserInfo", "Name: " + name);
-            Log.e("LogginUserInfo", "Id: " + user.getId());
-            Log.e("LogginUserInfo", "Id: " + user.getDistance());
-            //====================================================================
+            /*<#DEBUG_OFF>
+                Log.e("LogginUserInfo", "Name: " + name);
+                Log.e("LogginUserInfo", "Id: " + user.getId());
+                Log.e("LogginUserInfo", "Id: " + user.getDistance());
+            </#DEBUG_OFF>*/
         }
 
         return names;

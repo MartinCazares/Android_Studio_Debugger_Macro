@@ -57,33 +57,35 @@ A very common scenario is where you need to log pieces of information when proce
 However, so far, Android Tools don't provide a clean way to handle it, what we end up doing would be something like this:
 
 Example1:
-private List<String> getNamesOfUsersNearMe(String zipCode){
-    List<User> users = mBusinessLogic.getUsersByZipcode(zipCode);
-    if(users == null || users.size() < 1){
-        return null;
-    }
 
-    List<String> names = new ArrayList<String>();
-    int totalUsers = users.size();
-    for(int i = 0; i < totalUsers; i++){
-        User user = users.get(i);
-        String name = user.getName();
-        names.add(name);
-        //This piece of code is only for logging purposes...
-	if(DEBUG){
-	        Log.e("LogginUserInfo", "Name: " + name);
-       	 	Log.e("LogginUserInfo", "Id: " + user.getId());
-       	 	Log.e("LogginUserInfo", "Id: " + user.getDistance());
-	}
-    }
+    private List<String> getNamesOfUsersNearMe(String zipCode){
+        List<User> users = mBusinessLogic.getUsersByZipcode(zipCode);
+        if(users == null || users.size() < 1){
+            return null;
+        }
 
-    return names;
-}
+        List<String> names = new ArrayList<String>();
+        int totalUsers = users.size();
+        for(int i = 0; i < totalUsers; i++){
+            User user = users.get(i);
+            String name = user.getName();
+            names.add(name);
+            //This piece of code is only for logging purposes...
+            if(DEBUG){
+                Log.e("LogginUserInfo", "Name: " + name);
+                Log.e("LogginUserInfo", "Id: " + user.getId());
+                Log.e("LogginUserInfo", "Id: " + user.getDistance());
+            }
+        }
+
+        return names;
+    }
 
 Even tho we are avoiding that code to be executed by using flags, the code is still being evaluated and it could be somehow misleading at times, so, the whole idea for this project is to add special “tags” as follows to debug your code…
 
 Example2:
-private List<String> getNamesOfUsersNearMe(String zipCode){
+
+    private List<String> getNamesOfUsersNearMe(String zipCode){
         List<User> users = mBusinessLogic.getUsersByZipcode(zipCode);
         if(users == null || users.size() < 1){
             return null;
@@ -96,14 +98,14 @@ private List<String> getNamesOfUsersNearMe(String zipCode){
             String name = user.getName();
             names.add(name);
             //<#DEBUG>
-                Log.e("LogginUserInfo", "Name: " + name);
-                Log.e("LogginUserInfo", "Id: " + user.getId());
-                Log.e("LogginUserInfo", "Id: " + user.getDistance());
+            Log.e("LogginUserInfo", "Name: " + name);
+            Log.e("LogginUserInfo", "Id: " + user.getId());
+            Log.e("LogginUserInfo", "Id: " + user.getDistance());
             //</#DEBUG>
         }
 
         return names;
-}
+    }
 
 Everything within the tags:
 //<#DEBUG>
@@ -113,7 +115,8 @@ Everything within the tags:
 Will be commented out when changing your Build Variants to “release” as follows:
 
 Example3:
-private List<String> getNamesOfUsersNearMe(String zipCode){
+
+    private List<String> getNamesOfUsersNearMe(String zipCode){
         List<User> users = mBusinessLogic.getUsersByZipcode(zipCode);
         if(users == null || users.size() < 1){
             return null;
@@ -133,7 +136,7 @@ private List<String> getNamesOfUsersNearMe(String zipCode){
         }
 
         return names;
-}
+    }
 
 If you change your “Build Variants” back to “debug” you would have the code uncommented again exactly the same way it shows in the “Example2”.
 
