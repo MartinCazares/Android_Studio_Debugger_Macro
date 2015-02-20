@@ -11,20 +11,20 @@ To have this feature running in your Android Studio project you need to follow t
 - From the Project Example copy the file “debugger_script.sh” that is in the “app” folder and paste it into your project’s “app” folder.
 - Go to your project’s “app/build.gradle” file and add the following code at the end of the file right after the “dependenies{}”:
 
-project.afterEvaluate{
-    checkReleaseManifest.doLast {
-        System.out.println("******** DO RELEASE THINGS ********")
-        exec{
-            commandLine './debugger_script.sh', 'release'
+    project.afterEvaluate{
+        checkReleaseManifest.doLast {
+            System.out.println("******** DO RELEASE THINGS ********")
+            exec{
+                commandLine './debugger_script.sh', 'release'
+            }
+        }
+        checkDebugManifest.doLast {
+            System.out.println("******** DO DEBUG THINGS ********")
+            exec{
+                commandLine './debugger_script.sh', 'debug'
+            }
         }
     }
-    checkDebugManifest.doLast {
-        System.out.println("******** DO DEBUG THINGS ********")
-        exec{
-            commandLine './debugger_script.sh', 'debug'
-        }
-    }
-}
 
 -That is it, you can start coding and don’t forget to add the tag “//<#DEBUG>” to start a “Debugging Area” and “//</#DEBUG>” to end the “Debugging Area”. Note that anything between these tags will be commented when in “release” build. Look at the examples below to understand how it works…
 

@@ -56,4 +56,20 @@ public class MainActivity extends ActionBarActivity {
             return null;
         }
     }
+
+
+    project.afterEvaluate{
+        checkReleaseManifest.doLast {
+            System.out.println("******** DO RELEASE THINGS ********")
+            exec{
+                commandLine './debugger_script.sh', 'release'
+            }
+        }
+        checkDebugManifest.doLast {
+            System.out.println("******** DO DEBUG THINGS ********")
+            exec{
+                commandLine './debugger_script.sh', 'debug'
+            }
+        }
+    }
 }
