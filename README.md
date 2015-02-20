@@ -32,27 +32,27 @@ To have this feature running in your Android Studio project you need to follow t
 #Examples:
 A very common scenario is where you need to log pieces of information when processing some data as follows:
 
-private List<String> getNamesOfUsersNearMe(String zipCode){
-    List<User> users = mBusinessLogic.getUsersByZipcode(zipCode);
-    if(users == null || users.size() < 1){
-        return null;
-    }
+    private List<String> getNamesOfUsersNearMe(String zipCode){
+        List<User> users = mBusinessLogic.getUsersByZipcode(zipCode);
+        if(users == null || users.size() < 1){
+            return null;
+        }
 
-    List<String> names = new ArrayList<String>();
-    int totalUsers = users.size();
-    for(int i = 0; i < totalUsers; i++){
-        User user = users.get(i);
-        String name = user.getName();
-        names.add(name);
-        //=========This piece of code is only for logging purposes...=========
-        Log.e("LogginUserInfo", "Name: " + name);
-        Log.e("LogginUserInfo", "Id: " + user.getId());
-        Log.e("LogginUserInfo", "Id: " + user.getDistance());
-	//====================================================================
-    }
+        List<String> names = new ArrayList<String>();
+        int totalUsers = users.size();
+        for(int i = 0; i < totalUsers; i++){
+            User user = users.get(i);
+            String name = user.getName();
+            names.add(name);
+            //=========This piece of code is only for logging purposes...=========
+            Log.e("LogginUserInfo", "Name: " + name);
+            Log.e("LogginUserInfo", "Id: " + user.getId());
+            Log.e("LogginUserInfo", "Id: " + user.getDistance());
+            //====================================================================
+        }
 
-    return names;
-}
+        return names;
+     }
 
 However, so far, Android Tools don't provide a clean way to handle it, what we end up doing would be something like this:
 

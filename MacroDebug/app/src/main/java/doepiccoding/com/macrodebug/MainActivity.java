@@ -58,18 +58,25 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    project.afterEvaluate{
-        checkReleaseManifest.doLast {
-            System.out.println("******** DO RELEASE THINGS ********")
-            exec{
-                commandLine './debugger_script.sh', 'release'
-            }
+    private List<String> getNamesOfUsersNearMe(String zipCode){
+        List<User> users = mBusinessLogic.getUsersByZipcode(zipCode);
+        if(users == null || users.size() < 1){
+            return null;
         }
-        checkDebugManifest.doLast {
-            System.out.println("******** DO DEBUG THINGS ********")
-            exec{
-                commandLine './debugger_script.sh', 'debug'
-            }
+
+        List<String> names = new ArrayList<String>();
+        int totalUsers = users.size();
+        for(int i = 0; i < totalUsers; i++){
+            User user = users.get(i);
+            String name = user.getName();
+            names.add(name);
+            //=========This piece of code is only for logging purposes...=========
+            Log.e("LogginUserInfo", "Name: " + name);
+            Log.e("LogginUserInfo", "Id: " + user.getId());
+            Log.e("LogginUserInfo", "Id: " + user.getDistance());
+            //====================================================================
         }
+
+        return names;
     }
 }
