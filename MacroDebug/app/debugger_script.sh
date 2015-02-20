@@ -11,4 +11,4 @@ if [ $1 = 'debug' ]; then
 	echo "DEBUGGER SCRIPT: DEBUG MODE"
 fi
 
-echo "DEBIGGER SCRIPT: DONE EDITING"
+echo "DEBUGGER SCRIPT: DONE EDITING"
