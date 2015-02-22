@@ -26,6 +26,7 @@ To have this feature running in your Android Studio project you need to follow t
         }
     }
 
+
 -That is it, you can start coding and don’t forget to add the tag “//<#DEBUG>” to start a “Debugging Area” and “//</#DEBUG>” to end the “Debugging Area”. Note that anything between these tags will be commented when in “release” build. Look at the examples below to understand how it works…
 
 
