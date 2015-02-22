@@ -27,7 +27,7 @@ To have this feature running in your Android Studio project you need to follow t
         }
 
 
-*That is it, you can start coding and don’t forget to add the tag “//<#DEBUG_AREA>” to start a “Debugging Area” and “//</#DEBUG_AREA>” to end the “Debugging Area”. Note HTML kind of syntax to start and end the area like <p></p> also notice that anything between these tags will be commented when in “release” build. Look at the examples below to understand how it works…
+*That is it, you can start coding and don’t forget to add the tag “//<#DEBUG_AREA>” to start and “//</#DEBUG_AREA>” to end you Debugging Areas. Note the XML kind of syntax to start and end the areas, also notice that anything between these tags will be commented when in “release” build. Look at the examples below to understand how it works…
 
 
 #Debug Area Examples:
@@ -80,9 +80,9 @@ However, so far, Android Tools don't provide a clean way to handle it and what w
         return names;
     }
 
-Even tho we are avoiding that code to be executed by using flags, the code is still there and the "if" is being evaluated and it could be somehow misleading at times or even have an impact in performance when used in long for loops, so, the whole idea of this project is to add special “tags” as follows to debug your code…
+Even tho we are avoiding that code to be executed by using flags, the code is still there and the "if" statement is being evaluated and it could be somehow misleading at times or even have an impact in performance when used in long for loops, so, the whole idea of this project is to add special “tags” as follows to debug your code…
 
-Debug Area Declaration:
+Debug Area Declaration Example:
 
     private List<String> getNamesOfUsersNearMe(String zipCode){
         List<User> users = mBusinessLogic.getUsersByZipcode(zipCode);
@@ -137,7 +137,7 @@ Debug Area "release" version:
         return names;
     }
 
-If you change your “Build Variants” back to “debug” you would have the code uncommented again exactly the same way it shows in the “Debug Area Declaration” example.
+If you change your “Build Variants” back to “debug” you would have the code uncommented again exactly the same way it shows in the “Debug Area Declaration Example".
 
 #Single Line of Log
 There are also scenarios where you might want to add one single log into your code, and for these cases we have a wrapper Log class (ASDebuggerMacroLog, get it from the example) that will be commented when you switch to release mode, so, instead of having something like this using Debug Areas:
@@ -156,7 +156,7 @@ You can have something cleaner like this(Proper way to use Single Log):
         return null;
     }
 
-Where the line of code used by the class "ASDebuggerMacroLog" will be commented. Note: You MUST use this single line logger by it self in a single line and you have to be careful when using it because it will comment the whole line and if not used properly it might break your code in a case like the one below:
+Where the line of code used by the class "ASDebuggerMacroLog" will be commented. Note: You MUST use this statement by it self in a single line and you have to be careful when using it because it will comment the whole line and if not used properly it might break your code in a case like the one below:
 
     if(validation){
         ASDebuggerMacroLog.e("LogUserInfo", "Single Log");}
@@ -164,6 +164,6 @@ Where the line of code used by the class "ASDebuggerMacroLog" will be commented.
 Since the line "ASDebuggerMacroLog.e("LogUserInfo", "Single Log");}" will be commented, the last curly brace will be commented and it will break the syntax of your code. Remember to use it always by it self as shown in the(Proper way to use Single Log).
 
 
-Don't forget to download the working example for a better understanding in a real app, hope is as helpful for you as it has been for me…
+Don't forget to download the working example for a better understanding in a real app, I hope this tool is as helpful for you as it has been for me…
 
 Regards!
