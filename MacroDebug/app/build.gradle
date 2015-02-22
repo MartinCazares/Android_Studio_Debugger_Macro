@@ -1,10 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-
     compileSdkVersion 21
     buildToolsVersion "21.1.1"
-
     defaultConfig {
         applicationId "doepiccoding.com.macrodebug"
         minSdkVersion 16
@@ -26,20 +24,22 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.2'
 }
 
+//Debugger Macro build.gradle app folder start
 project.afterEvaluate{
     checkReleaseManifest.doLast {
-        System.out.println("******** DO RELEASE THINGS ********")
+        System.out.println("DEBUGGER MACRO MOVED TO RELEASE MODE")
         exec{
             commandLine './debugger_script.sh', 'release'
         }
     }
     checkDebugManifest.doLast {
-        System.out.println("******** DO DEBUG THINGS ********")
+        System.out.println("DEBUGGER MACRO MOVED TO DEBUG MODE")
         exec{
             commandLine './debugger_script.sh', 'debug'
         }
     }
 }
+//Debugger Macro build.gradle app folder end
 
 task zzSetDebugMode << {
     System.out.println("******** DO MANUALLY DEBUG ********")

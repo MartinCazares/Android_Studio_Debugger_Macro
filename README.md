@@ -2,7 +2,7 @@
 Author: Martin Cazares
 
 #Description
-The idea of this project is to provide a cleaner way to add debugging code into Android applications by having
+The idea of this project is to provide a cleaner way to add debugging code into your Android applications by having
 special "tags" specifying what code must be commented out when doing a release build or uncommenting this code when switching back to debugging the app(Go to the examples section for more details).
 
 #How to configure:
@@ -13,13 +13,13 @@ To have this feature running in your Android Studio project you need to follow t
 
         project.afterEvaluate{
             checkReleaseManifest.doLast {
-                System.out.println("DO RELEASE THINGS")
+                System.out.println("DEBUGGER MACRO MOVED TO RELEASE MODE")
                 exec{
                     commandLine './debugger_script.sh', 'release'
                 }
             }
             checkDebugManifest.doLast {
-                System.out.println("DO DEBUG THINGS")
+                System.out.println("DEBUGGER MACRO MOVED TO DEBUG MODE")
                 exec{
                     commandLine './debugger_script.sh', 'debug'
                 }
@@ -27,10 +27,10 @@ To have this feature running in your Android Studio project you need to follow t
         }
 
 
-*That is it, you can start coding and don’t forget to add the tag “//<#DEBUG>” to start a “Debugging Area” and “//</#DEBUG>” to end the “Debugging Area”. Note that anything between these tags will be commented when in “release” build. Look at the examples below to understand how it works…
+*That is it, you can start coding and don’t forget to add the tag “//<#DEBUG_AREA>” to start a “Debugging Area” and “//</#DEBUG_AREA>” to end the “Debugging Area”. Note HTML kind of syntax to start and end the area like <p></p> also notice that anything between these tags will be commented when in “release” build. Look at the examples below to understand how it works…
 
 
-#Examples:
+#Debug Area Examples:
 A very common scenario is where you need to log pieces of information when processing some data as follows:
 
     private List<String> getNamesOfUsersNearMe(String zipCode){
@@ -46,18 +46,16 @@ A very common scenario is where you need to log pieces of information when proce
             String name = user.getName();
             names.add(name);
             //=========This piece of code is only for logging purposes...=========
-            Log.e("LogginUserInfo", "Name: " + name);
-            Log.e("LogginUserInfo", "Id: " + user.getId());
-            Log.e("LogginUserInfo", "Id: " + user.getDistance());
+            Log.e("LogUserInfo", "Name: " + name);
+            Log.e("LogUserInfo", "Id: " + user.getId());
+            Log.e("LogUserInfo", "Id: " + user.getDistance());
             //====================================================================
         }
 
         return names;
      }
 
-However, so far, Android Tools don't provide a clean way to handle it, what we end up doing would be something like this:
-
-Example1:
+However, so far, Android Tools don't provide a clean way to handle it and what we end up doing would be something like this:
 
     private List<String> getNamesOfUsersNearMe(String zipCode){
         List<User> users = mBusinessLogic.getUsersByZipcode(zipCode);
@@ -82,9 +80,9 @@ Example1:
         return names;
     }
 
-Even tho we are avoiding that code to be executed by using flags, the code is still being evaluated and it could be somehow misleading at times, so, the whole idea for this project is to add special “tags” as follows to debug your code…
+Even tho we are avoiding that code to be executed by using flags, the code is still there and the "if" is being evaluated and it could be somehow misleading at times or even have an impact in performance when used in long for loops, so, the whole idea of this project is to add special “tags” as follows to debug your code…
 
-Example2:
+Debug Area Declaration:
 
     private List<String> getNamesOfUsersNearMe(String zipCode){
         List<User> users = mBusinessLogic.getUsersByZipcode(zipCode);
@@ -98,24 +96,24 @@ Example2:
             User user = users.get(i);
             String name = user.getName();
             names.add(name);
-            //<#DEBUG>
+            //<#DEBUG_AREA>
             Log.e("LogginUserInfo", "Name: " + name);
             Log.e("LogginUserInfo", "Id: " + user.getId());
             Log.e("LogginUserInfo", "Id: " + user.getDistance());
-            //</#DEBUG>
+            //</#DEBUG_AREA>
         }
-
         return names;
     }
 
 Everything within the tags:
-//<#DEBUG>
-…
-//</#DEBUG>
+
+    //<#DEBUG_AREA>
+    …
+    //</#DEBUG_AREA>
 
 Will be commented out when changing your Build Variants to “release” as follows:
 
-Example3:
+Debug Area "release" version:
 
     private List<String> getNamesOfUsersNearMe(String zipCode){
         List<User> users = mBusinessLogic.getUsersByZipcode(zipCode);
@@ -139,9 +137,33 @@ Example3:
         return names;
     }
 
-If you change your “Build Variants” back to “debug” you would have the code uncommented again exactly the same way it shows in the “Example2”.
+If you change your “Build Variants” back to “debug” you would have the code uncommented again exactly the same way it shows in the “Debug Area Declaration” example.
+
+#Single Line of Log
+There are also scenarios where you might want to add one single log into your code, and for these cases we have a wrapper Log class (ASDebuggerMacroLog, get it from the example) that will be commented when you switch to release mode, so, instead of having something like this using Debug Areas:
+
+    if(users == null || users.size() < 1){
+        //<#DEBUG_AREA>
+        Log.e("LogUserInfo", "There's no users available near me...");
+        //</#DEBUG_AREA>
+        return null;
+    }
+
+You can have something cleaner like this(Proper way to use Single Log):
+
+    if(users == null || users.size() < 1){
+        ASDebuggerMacroLog.e("LogUserInfo", "There's no users available near me...");
+        return null;
+    }
+
+Where the line of code used by the class "ASDebuggerMacroLog" will be commented. Note: You MUST use this single line logger by it self in a single line and you have to be careful when using it because it will comment the whole line and if not used properly it might break your code in a case like the one below:
+
+    if(validation){
+        ASDebuggerMacroLog.e("LogUserInfo", "Single Log");}
+
+Since the line "ASDebuggerMacroLog.e("LogUserInfo", "Single Log");}" will be commented, the last curly brace will be commented and it will break the syntax of your code. Remember to use it always by it self as shown in the(Proper way to use Single Log).
 
 
-So, Hope is as helpful for you as it has been for me…
+Don't forget to download the working example for a better understanding in a real app, hope is as helpful for you as it has been for me…
 
 Regards!
