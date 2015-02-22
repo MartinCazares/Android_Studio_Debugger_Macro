@@ -25,7 +25,7 @@ To have this feature running in your Android Studio project you need to follow t
                 commandLine './debugger_script.sh', 'debug'
             }
         }
-    }```
+    }``
     
 
 
