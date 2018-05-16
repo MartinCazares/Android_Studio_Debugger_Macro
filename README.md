@@ -1,11 +1,11 @@
 # debugger_macro_AS(Linux/MasOSX)
 Author: Martin Cazares
 
-#Description
+# Description
 The idea of this project is to provide a cleaner way to add debugging code into your Android applications by having
 special "tags" specifying what code must be commented out when doing a release build or uncommenting this code when switching back to debugging the app(Go to the examples section for more details).
 
-#How to configure:
+# How to configure:
 To have this feature running in your Android Studio project you need to follow these steps:
 * Download the Project Example
 * From the Project Example copy the file “debugger_script.sh” that is in the “app” folder and paste it into your project’s “app” folder.
@@ -30,7 +30,7 @@ To have this feature running in your Android Studio project you need to follow t
 *That is it, you can start coding and don’t forget to add the tag “//<#DEBUG_AREA>” to start and “//</#DEBUG_AREA>” to end you Debugging Areas. Note the XML kind of syntax to start and end the areas, also notice that anything between these tags will be commented when in “release” build. Look at the examples below to understand how it works…
 
 
-#Debug Area Examples:
+# Debug Area Examples:
 A very common scenario is where you need to log pieces of information when processing some data as follows:
 
     private List<String> getNamesOfUsersNearMe(String zipCode){
