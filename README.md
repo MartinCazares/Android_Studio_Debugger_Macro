@@ -1,5 +1,5 @@
 # debugger_macro_AS(Linux/MasOSX)
-Author: Martin Cazares
+Author: Martin Cazares!
 
 #Description
 The idea of this project is to provide a cleaner way to add debugging code into your Android applications by having
